@@ -49,12 +49,68 @@ def solicitar_dados_livro():
     return titulo, autor, ano, categoria
 
 
+def atualizar_status(livro):
+    print(f"\nTitulo: {livro['titulo']}")
+    print(f"Autor: {livro['autor']}")
+    print(f"Ano: {livro['ano']}")
+    print(f"Categoria: {livro['categoria']}")
+    print(f"Status Atual: {livro['status_de_leitura']}")
+    print("-------------------------")
+
+    print("Escolha o novo status:")
+    print("1 - Não iniciado")
+    print("2 - Em andamento")
+    print("3 - Concluído")
+
+    opcao = input("Escolha uma opção: ").strip()
+
+    if opcao == "1":
+        livro["status_de_leitura"] = "Não iniciado"
+        print("Status atualizado com sucesso!")
+    elif opcao == "2":
+        livro["status_de_leitura"] = "Em andamento"
+        print("Status atualizado com sucesso!")
+    elif opcao == "3":
+        livro["status_de_leitura"] = "Concluído"
+        print("Status atualizado com sucesso!")
+    else:
+        print("Opção inválida! O status não foi alterado.")
+
+
+def selecionar_livro():
+    titulo_pesquisa = input("Digite o título do livro que deseja atualizar: ")
+    encontrado = False
+
+    for livro in biblioteca:
+        if livro["titulo"].lower() == titulo_pesquisa.lower():
+            atualizar_status(livro)
+            encontrado = True
+            break
+    if not encontrado:
+        print("Livro não encontrado na biblioteca.")
+
+
+def remover_livro():
+    livro_remover = input("Digite o título do livro que deseja remover: ")
+    encontrado = False
+    for livro in biblioteca:
+            if livro["titulo"].lower() == livro_remover.lower():
+                print("Livro encontrado")
+                biblioteca.remove(livro)
+                print(f"O livro '{livro['titulo']}' foi removido com sucesso!")
+                encontrado = True
+                break
+    if not encontrado:
+        print("Livro não encontrado na biblioteca.")
+
 while True:
     print(f"==== GERENCIADOR DE BIBLIOTECA ====\n\n")
     print(f"1 - Cadastrar livro\n")
     print(f"2 - Listar livros\n")
-    print("3 - Pesquisar livro\n")
-    print(f"4 - Sair\n\n")
+    print(f"3 - Pesquisar livro\n")
+    print(f"4 - Atualizar status\n")
+    print(f"5 - Remover livro\n")
+    print(f"6 - Sair\n\n")
 
     opcao = int(input("Escolha uma opção:"))
 
@@ -62,11 +118,16 @@ while True:
         titulo, autor, ano, categoria = solicitar_dados_livro()
         cadastrar_livro(titulo, autor, ano, categoria)
         print("Livro cadastrado!")
+        atualizar_status(biblioteca[-1])
     elif opcao == 2:
         listar_livros()
     elif opcao == 3:
         pesquisar_livro()
     elif opcao == 4:
+        selecionar_livro()
+    elif opcao == 5:
+        remover_livro()
+    elif opcao == 6:
         print("Obrigado por utilizar o Gerenciador de Biblioteca!\nAté a próxima!")
         break
     else:
