@@ -94,14 +94,36 @@ def remover_livro():
     livro_remover = input("Digite o título do livro que deseja remover: ")
     encontrado = False
     for livro in biblioteca:
-            if livro["titulo"].lower() == livro_remover.lower():
-                print("Livro encontrado")
-                biblioteca.remove(livro)
-                print(f"O livro '{livro['titulo']}' foi removido com sucesso!")
-                encontrado = True
-                break
+        if livro["titulo"].lower() == livro_remover.lower():
+            print("Livro encontrado")
+            biblioteca.remove(livro)
+            print(f"O livro '{livro['titulo']}' foi removido com sucesso!")
+            encontrado = True
+            break
     if not encontrado:
         print("Livro não encontrado na biblioteca.")
+
+
+def mostrar_estatisticas():
+    total_livros = 0
+    nao_iniciados = 0
+    em_andamento = 0
+    concluidos = 0
+    for livro in biblioteca:
+        total_livros += 1
+        if livro["status_de_leitura"] == "Não iniciado":
+            nao_iniciados += 1
+        elif livro["status_de_leitura"] == "Em andamento":
+            em_andamento += 1
+        elif livro["status_de_leitura"]== "Concluído":
+            concluidos += 1
+    if total_livros == 0:
+        print("Não existem livros cadastrados.")
+    else:
+        print(f"Total de livros: {total_livros}")
+        print(f"Total de livros não iniciados: {nao_iniciados}")
+        print(f"Total de livros em andamento: {em_andamento}")
+        print(f"Total de livros Concluidos: {concluidos}")
 
 while True:
     print(f"==== GERENCIADOR DE BIBLIOTECA ====\n\n")
@@ -110,7 +132,8 @@ while True:
     print(f"3 - Pesquisar livro\n")
     print(f"4 - Atualizar status\n")
     print(f"5 - Remover livro\n")
-    print(f"6 - Sair\n\n")
+    print(f"6 - Mostrar estatiticas\n")
+    print(f"7 - Sair\n\n")
 
     opcao = int(input("Escolha uma opção:"))
 
@@ -128,6 +151,8 @@ while True:
     elif opcao == 5:
         remover_livro()
     elif opcao == 6:
+        mostrar_estatisticas()
+    elif opcao == 7:
         print("Obrigado por utilizar o Gerenciador de Biblioteca!\nAté a próxima!")
         break
     else:
