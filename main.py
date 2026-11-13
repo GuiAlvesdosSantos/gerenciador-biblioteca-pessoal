@@ -42,10 +42,28 @@ def pesquisar_livro():
 
 
 def solicitar_dados_livro():
-    titulo = input("Digite o título do livro: ")
-    autor = input("Digite o autor do livro: ")
-    ano = input("Digite o ano do livro: ")
-    categoria = input("Digite a categoria do livro: ")
+    while True:
+        titulo = input("Digite o título do livro: ").strip()
+        if titulo:
+            break
+        print("O título não pode ficar vazio!")
+    while True:
+        autor = input("Digite o autor do livro: ").strip()
+        if autor:
+            break
+        print("O autor não pode ficar vazio!")
+    while True:
+        ano = input("Digite o ano do livro: ").strip()
+        if ano and ano.isdigit():
+            ano = int(ano)
+            break
+        print("Digite um ano válido, utilizando apenas números!")
+    while True:
+        categoria = input("Digite a categoria do livro: ").strip()
+        if categoria:
+            break
+        print("A categoria não pode ficar vazia!")
+
     return titulo, autor, ano, categoria
 
 
@@ -115,7 +133,7 @@ def mostrar_estatisticas():
             nao_iniciados += 1
         elif livro["status_de_leitura"] == "Em andamento":
             em_andamento += 1
-        elif livro["status_de_leitura"]== "Concluído":
+        elif livro["status_de_leitura"] == "Concluído":
             concluidos += 1
     if total_livros == 0:
         print("Não existem livros cadastrados.")
@@ -123,20 +141,25 @@ def mostrar_estatisticas():
         print(f"Total de livros: {total_livros}")
         print(f"Total de livros não iniciados: {nao_iniciados}")
         print(f"Total de livros em andamento: {em_andamento}")
-        print(f"Total de livros Concluidos: {concluidos}")
+        print(f"Total de livros Concluídos: {concluidos}")
+
 
 while True:
-    print(f"==== GERENCIADOR DE BIBLIOTECA ====\n\n")
+    print(f"==== GERENCIADOR DE BIBLIOTECA ====\n")
     print(f"1 - Cadastrar livro\n")
     print(f"2 - Listar livros\n")
     print(f"3 - Pesquisar livro\n")
     print(f"4 - Atualizar status\n")
     print(f"5 - Remover livro\n")
-    print(f"6 - Mostrar estatiticas\n")
-    print(f"7 - Sair\n\n")
+    print(f"6 - Mostrar estatísticas\n")
+    print(f"7 - Sair\n")
 
-    opcao = int(input("Escolha uma opção:"))
-
+    opcao = input("Escolha uma opção:").strip()
+    if opcao.isdigit():
+        opcao = int(opcao)
+    else:
+        print("Digite uma opção válida, utilizando apenas números!")
+        continue
     if opcao == 1:
         titulo, autor, ano, categoria = solicitar_dados_livro()
         cadastrar_livro(titulo, autor, ano, categoria)
